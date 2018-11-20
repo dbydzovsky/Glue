@@ -1,23 +1,40 @@
 import argparse
 
 from modules import module
-from tools.ansible.run.ansiblePlaybookRun import AnsiblePlaybookRun
-from tools.ansible.runner.nativeAnsibleRunner import NativeAnsibleRunner
-
+import yaml
 
 class DeployModule(module.Module):
     def command(self):
         return "deploy"
 
     def help(self):
-        return "Deploys an application."
+        return "Deploys applications."
 
     def setParser(self, parser: argparse.ArgumentParser):
-        parser.add_argument('integers', metavar='N', type=int, nargs='+', help='an integer for the accumulator')
+        parser.add_argument('-f', type=argparse.FileType('r'), nargs="?", default="Gluefile.yaml", help='A gluefile.yaml to be deployed.')
 
     def start(self, args):
-        print(args.integers[0])
-        run = AnsiblePlaybookRun()
-        runner = NativeAnsibleRunner()
+        data = loadData(args)
+        checkStructure(data)
+        print(data)
 
-        runner.execute(run)
+
+
+def checkStructure(data):
+    print("checking structure.")
+    pass
+
+
+
+def loadData(args):
+    gluefile = args.f
+
+    print("loading data.")
+    try:
+        y = yaml.load(gluefile)
+        return y
+    except yaml.YAMLError as exc:
+        print(exc)
+        exit(1)
+    finally:
+        gluefile.close()

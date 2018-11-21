@@ -1,0 +1,9 @@
+version: 1
+name: general.hello-world
+
+deployable:
+  bash:
+    path: deploy.sh
+
+single:
+  port: int

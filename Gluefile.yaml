@@ -2,7 +2,7 @@ version: 1
 
 
 machines:
-  - alias: granat
-    hostname: localhost
-  - alias: broucek
-    hostname: localhost
+- alias: ja
+  hostname: localhost
+  roles:
+  - general.hello-world
